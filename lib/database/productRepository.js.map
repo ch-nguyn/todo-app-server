@@ -1,0 +1,1 @@
+{"version":3,"file":"productRepository.js","names":["products","getAll","params"],"sources":["../../src/database/productRepository.js"],"sourcesContent":["import products from \"./products.json\";\r\n\r\nexport const getAll = (params) => {\r\n  return products;\r\n};\r\n"],"mappings":"AAAA,OAAOA,QAAQ,MAAM,iBAAiB;AAEtC,OAAO,MAAMC,MAAM,GAAIC,MAAM,IAAK;EAChC,OAAOF,QAAQ;AACjB,CAAC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"checkInput.js","names":["checkInput","ctx","next"],"sources":["../../src/middleware/checkInput.js"],"sourcesContent":["export const checkInput = async (ctx, next) => {\r\n  next();\r\n};\r\n"],"mappings":"AAAA,OAAO,MAAMA,UAAU,GAAG,MAAAA,CAAOC,GAAG,EAAEC,IAAI,KAAK;EAC7CA,IAAI,CAAC,CAAC;AACR,CAAC"}

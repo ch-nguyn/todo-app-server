@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @keyframes scale {
+        0% {
+          transform: translate(0, -50%);
+          opacity: 0.3;
+        }
+        100% {
+          transform: translate(-50%, -50%);
+          opacity: 1;
+        }
+      }
+      .scale {
+        animation: scale 0.5s ease-in-out; /* Use the keyframe animation */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="px-10">
+      <h3 class="text-center text-4xl my-10 font-medium">Product List</h3>
+      <div>
+        <!-- Modal -->
+        <div
+          class="overflow-y-scroll fixed p-10 w-1/2 bg-white h-[500px] z-50 top-1/2 left-1/2 transform hidden -translate-x-1/2 -translate-y-1/2 modal scale"
+        >
+          <h2 class="text-xl mb-5">Add Product</h2>
+          <div class="mb-3">
+            <label for="id" class="mb-1 inline-block">ID</label>
+            <input
+              id="id"
+              class="rounded-lg w-full py-2 px-4 border border-gray-500"
+              type="text"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="name" class="mb-1 inline-block">Name</label>
+            <input
+              id="name"
+              class="rounded-lg w-full py-2 px-4 border border-gray-500"
+              type="text"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="price" class="mb-1 inline-block capitalize"
+              >price</label
+            >
+            <input
+              id="price"
+              class="rounded-lg w-full py-2 px-4 border border-gray-500"
+              type="text"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="description" class="mb-1 inline-block capitalize"
+              >description</label
+            >
+            <input
+              id="description"
+              class="rounded-lg w-full py-2 px-4 border border-gray-500"
+              type="text"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="product" class="mb-1 inline-block capitalize"
+              >product</label
+            >
+            <input
+              id="product"
+              class="rounded-lg w-full py-2 px-4 border border-gray-500"
+              type="text"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="color" class="mb-1 inline-block capitalize"
+              >color</label
+            >
+            <input
+              id="color"
+              class="rounded-lg w-full py-2 px-4 border border-gray-500"
+              type="text"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="createdAt" class="mb-1 inline-block capitalize"
+              >Created At</label
+            >
+            <input
+              id="createdAt"
+              class="rounded-lg w-full py-2 px-4 border border-gray-500"
+              type="text"
+            />
+          </div>
+          <div class="mb-6">
+            <label for="image" class="mb-1 inline-block capitalize"
+              >image</label
+            >
+            <input
+              id="image"
+              class="rounded-lg w-full py-2 px-4 border border-gray-500"
+              type="text"
+            />
+          </div>
+          <button
+            onclick="handleAddProduct()"
+            class="w-full rounded-lg bg-blue-500 hover:bg-blue-400 text-white py-3"
+          >
+            Submit
+          </button>
+        </div>
+
+        <div
+          onclick="handleCloseModal()"
+          class="fixed top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.6)] modal-cover hidden"
+        ></div>
+      </div>
+      <div class="flex justify-end mb-10">
+        <button
+          onclick="handleShowModal()"
+          class="py-3 px-5 hover:bg-blue-400 bg-blue-500 rounded-lg text-white"
+        >
+          + Add product
+        </button>
+      </div>
+      <table class="w-full border border-gray-300 mb-10">
+        <thead class="text-left bg-gray-300">
+          <tr>
+            <th><p class="ml-5">ON</p></th>
+            <th><p>ID</p></th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Product</th>
+            <th>Color</th>
+            <th class="">Created At</th>
+            <th class="py-5 text-center">Image</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(var i = 0; i < products.length; i++){ %>
+          <tr class="hover:bg-gray-200 duration-300 my-10">
+            <td>
+              <p class="ml-5"><%- i+1 %></p>
+            </td>
+            <td>
+              <p><%- products[i].id %></p>
+            </td>
+            <td><p class="font-medium"><%- products[i].name %></p></td>
+            <td>$<%- products[i].price %></td>
+            <td><%- products[i].product %></td>
+            <td>
+              <div
+                class="w-10 rounded-full h-10 bg-[<%- products[i].color %>]"
+              ></div>
+            </td>
+            <td><%- products[i].createdAt %></td>
+            <td class="w-[5%]">
+              <img
+                class="rounded-lg my-4"
+                src="<%- products[i].image %>"
+                alt=""
+              />
+            </td>
+            <td>
+              <div class="text-center flex gap-2 justify-center">
+                <a
+                  href="/page/edit/<%- products[i].id %>"
+                  class="bg-blue-500 text-white py-2 px-4 rounded-lg cursor-pointer hover:bg-blue-400"
+                  ><i class="fa-regular fa-pen-to-square"></i
+                ></a>
+                <span
+                  onclick="handleDelete(this.id)"
+                  id="<%- products[i].id %>"
+                  class="bg-red-500 text-white py-2 px-4 rounded-lg cursor-pointer hover:bg-red-400"
+                  ><i class="fa-solid fa-trash"></i
+                ></span>
+              </div>
+            </td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      const url = "http://localhost:5000/api/products";
+      const modal = document.querySelector(".modal");
+      const coverModal = document.querySelector(".modal-cover");
+      const handleCloseModal = () => {
+        modal.classList.add("hidden");
+        coverModal.classList.add("hidden");
+      };
+
+      const handleShowModal = () => {
+        modal.classList.remove("hidden");
+        coverModal.classList.remove("hidden");
+      };
+
+      const handleDelete = (id) => {
+        (async () => {
+          try {
+            await fetch(`${url}/${id}`, {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+            await alert("Done");
+            location.reload();
+          } catch (e) {
+            console.log(e);
+          }
+        })();
+      };
+
+      const handleAddProduct = () => {
+        const id = document.querySelector("#id").value;
+        const name = document.querySelector("#name").value;
+        const price = document.querySelector("#price").value;
+        const description = document.querySelector("#description").value;
+        const product = document.querySelector("#product").value;
+        const color = document.querySelector("#color").value;
+        const createdAt = document.querySelector("#createdAt").value;
+        const image = document.querySelector("#image").value;
+        (async () => {
+          try {
+            await fetch(url, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                id: id * 1,
+                name,
+                price: price * 1,
+                description,
+                product,
+                color,
+                createdAt,
+                image,
+              }),
+            });
+            handleCloseModal();
+            await alert("Done");
+            location.reload();
+          } catch (e) {
+            console.log(e);
+            alert("Something went wrong");
+          }
+        })();
+      };
+    </script>
+  </body>
+</html>
