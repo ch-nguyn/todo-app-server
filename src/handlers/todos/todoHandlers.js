@@ -1,18 +1,17 @@
 import {
   getAll,
-  getOne,
-  deleteOne,
   addOne,
-  updateOne,
-} from "../../database/productRepository.js";
+  updateList,
+  deleteManyData,
+} from "../../database/todoRepository.js";
 
-export const getAllProducts = async (ctx) => {
+export const getAllTodos = async (ctx) => {
   try {
-    const products = getAll(ctx.query);
+    const todos = getAll();
     ctx.status = 200;
     return (ctx.body = {
       success: true,
-      data: products,
+      data: todos,
     });
   } catch (e) {
     console.error(e);
@@ -24,28 +23,10 @@ export const getAllProducts = async (ctx) => {
   }
 };
 
-export const getSingleProduct = async (ctx) => {
+export const deleteTodos = async (ctx) => {
   try {
-    const product = getOne(ctx.params.id, ctx.query.fields);
-    ctx.status = 200;
-    return (ctx.body = {
-      success: true,
-      data: product,
-    });
-  } catch (e) {
-    console.error(e);
-    ctx.status = 404;
-    return (ctx.body = {
-      success: false,
-      error: e.message,
-    });
-  }
-};
-
-export const deleteProduct = async (ctx) => {
-  try {
-    deleteOne(ctx.params.id);
-
+    const { arrIds } = ctx.request.body;
+    deleteManyData(arrIds);
     ctx.status = 204;
     return (ctx.body = {
       success: true,
@@ -61,14 +42,14 @@ export const deleteProduct = async (ctx) => {
   }
 };
 
-export const createProduct = async (ctx) => {
+export const createTodo = async (ctx) => {
   try {
-    const product = ctx.request.body;
-    addOne(product);
+    const todo = ctx.request.body;
+    const todoRes = addOne(todo);
     ctx.status = 201;
     return (ctx.body = {
       success: true,
-      data: product,
+      data: todoRes,
     });
   } catch (e) {
     console.error(e);
@@ -80,12 +61,11 @@ export const createProduct = async (ctx) => {
   }
 };
 
-export const updateProduct = async (ctx) => {
+export const updateTodos = async (ctx) => {
   try {
-    const { body } = ctx.request;
-    const { id } = ctx.params;
+    const { arrIds, isComplete } = ctx.request.body;
+    updateList(arrIds, isComplete);
 
-    updateOne(id, body);
     ctx.status = 200;
     return (ctx.body = {
       success: true,
